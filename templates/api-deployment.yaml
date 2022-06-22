@@ -40,9 +40,9 @@ spec:
             - name: APP_SETTINGS 
               value: project.server.config.DevelopmentConfig
             - name: CELERY_BROKER_URL 
-              value: redis://redis:6379/0
+              value: redis://redis-master:6379/0
             - name: CELERY_RESULT_BACKEND 
-              value: redis://redis:6379/0                                    
+              value: redis://redis-master:6379/0                                    
           ports:
             - name: http
               containerPort: 5000
