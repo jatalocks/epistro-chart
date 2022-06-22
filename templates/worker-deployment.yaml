@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "socrates.fullname" . }}-worker
+  labels:
+    app: {{ template "socrates.name" . }}-worker
+    chart: {{ template "socrates.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.worker.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "socrates.name" . }}-worker
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "socrates.name" . }}-worker
+        release: {{ .Release.Name }}
+{{- with .Values.worker.annotations }}
+      annotations:
+{{ toYaml . | indent 8 }}       
+{{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}    
+      restartPolicy: Always        
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
+          command: ["celery"]
+          args: ["--app", "project.server.tasks","worker","--loglevel=info","--pool","solo","--logfile=project/logs/celery.log"]
+          env:    
+            - name: FLASK_DEBUG 
+              value: "1"
+            - name: APP_SETTINGS 
+              value: project.server.config.DevelopmentConfig
+            - name: CELERY_BROKER_URL 
+              value: redis://redis:6379/0
+            - name: CELERY_RESULT_BACKEND 
+              value: redis://redis:6379/0                                    
+            - name: speech_key
+              value: {{.Values.speechmaticsKey}}
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          resources:
+{{ toYaml .Values.worker.resources | indent 12 }}
+    {{- with .Values.worker.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.worker.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.worker.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

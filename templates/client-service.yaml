@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "socrates.name" . }}-client
+{{- with .Values.client.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}  
+{{- end }}    
+  labels:
+    app: {{ template "socrates.name" . }}-client
+    chart: {{ template "socrates.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.client.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.client.service.port | default 80 }}
+      targetPort: 80
+  selector:
+    app: {{ template "socrates.name" . }}-client
+    release: {{ .Release.Name }}

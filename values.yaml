@@ -1,0 +1,114 @@
+# Default values for socrates.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+speechmaticsKey: mykey 
+
+client:
+  replicaCount: 1
+  image:
+    repository: epistro/frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+    annotations: {}
+  annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources: {}
+
+server:
+  replicaCount: 1
+  database:
+    user: user
+    password: password
+  image:
+    repository: epistro/backend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 4000
+    annotations: {}
+  minio:
+    externalAddress: socrates.minio.my.domain
+  annotations: {}    
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources: {}
+
+api:
+  replicaCount: 1
+  image:
+    repository: epistro/api
+    tag: v1
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 5004
+    annotations: {}
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  annotations: {}
+
+worker:
+  replicaCount: 1
+  image:
+    repository: epistro/api
+    tag: v1
+    pullPolicy: Always
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  annotations: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+  path: /
+  hosts:
+    - socrates.my.domain
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  minio:
+    enabled: false
+    hosts:  
+      - socrates.minio.my.domain  
+
+mongodb:
+  persistence:
+    enabled: false
+  architecture: replicaset
+  replicaCount: 3
+  auth:
+    enabled: true
+    usernames: 
+      - user
+    passwords: 
+      - password
+    databases: 
+      - meandatabase
+
+minio:
+  persistence:
+    enabled: false
+  mode: distributed
+  auth:
+    rootUser: AKIAIOSFODNN7EXAMPLE
+    rootPassword: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+redis:
+  fullnameOverride: redis

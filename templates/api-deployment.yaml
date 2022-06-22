@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "socrates.fullname" . }}-api
+  labels:
+    app: {{ template "socrates.name" . }}-api
+    chart: {{ template "socrates.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "socrates.name" . }}-api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "socrates.name" . }}-api
+        release: {{ .Release.Name }}
+{{- with .Values.api.annotations }}
+      annotations:
+{{ toYaml . | indent 8 }}       
+{{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}    
+      restartPolicy: Always        
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          command: ["python"]
+          args: ["manage.py", "run","-h","0.0.0.0"]
+          env:    
+            - name: FLASK_DEBUG 
+              value: "1"
+            - name: APP_SETTINGS 
+              value: project.server.config.DevelopmentConfig
+            - name: CELERY_BROKER_URL 
+              value: redis://redis:6379/0
+            - name: CELERY_RESULT_BACKEND 
+              value: redis://redis:6379/0                                    
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          resources:
+{{ toYaml .Values.api.resources | indent 12 }}
+    {{- with .Values.api.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.api.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.api.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
