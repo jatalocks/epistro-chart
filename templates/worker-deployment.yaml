@@ -39,7 +39,7 @@ spec:
             - name: app
               mountPath: /usr/src/app            
           command: ["celery"]
-          args: ["--app", "project.server.tasks","worker","--loglevel=info","--pool","solo","--logfile=project/logs/celery.log"]
+          args: ["--app", "project.server.tasks.celery","worker","--loglevel=info","--pool","solo","--logfile=project/logs/celery.log"]
           env:    
             - name: FLASK_DEBUG 
               value: "1"
