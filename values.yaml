@@ -38,7 +38,7 @@ server:
     port: 4000
     annotations: {}
   minio:
-    externalAddress: socrates.minio.my.domain
+    externalAddress: epistro.minio.my.domain
   annotations: {}    
   nodeSelector: {}
   tolerations: []
