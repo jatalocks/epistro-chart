@@ -27,11 +27,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}    
-      restartPolicy: Always        
+      restartPolicy: Always     
+      volumes: 
+        - name: app
+          emptyDir: {}                
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
           imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
+          volumeMounts: 
+            - name: app
+              mountPath: /usr/src/app            
           command: ["celery"]
           args: ["--app", "project.server.tasks","worker","--loglevel=info","--pool","solo","--logfile=project/logs/celery.log"]
           env:    
