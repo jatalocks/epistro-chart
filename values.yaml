@@ -12,7 +12,7 @@ client:
   replicaCount: 1
   image:
     repository: epistro/frontend
-    tag: latest
+    tag: main
     pullPolicy: Always
   service:
     type: ClusterIP
@@ -31,7 +31,7 @@ server:
     password: password
   image:
     repository: epistro/backend
-    tag: latest
+    tag: main
     pullPolicy: Always
   service:
     type: ClusterIP
