@@ -65,7 +65,7 @@ worker:
   replicaCount: 1
   image:
     repository: epistro/api
-    tag: v1
+    tag: main
     pullPolicy: Always
   resources: {}
   nodeSelector: {}
