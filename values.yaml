@@ -1,4 +1,4 @@
-# Default values for socrates.
+# Default values for epistro.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -78,7 +78,7 @@ ingress:
   annotations: {}
   path: /
   hosts:
-    - socrates.my.domain
+    - epistro.my.domain
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -86,7 +86,7 @@ ingress:
   minio:
     enabled: false
     hosts:  
-      - socrates.minio.my.domain  
+      - epistro.minio.my.domain  
 
 mongodb:
   persistence:
