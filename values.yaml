@@ -118,3 +118,5 @@ redis:
   replica:
     persistence:
       enabled: false
+  auth:
+    enabled: false      
