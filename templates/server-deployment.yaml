@@ -51,8 +51,6 @@ spec:
               value: {{ template "socrates.name" . }}-mongodb-headless
             - name: MINIO_ADDR
               value: {{ template "socrates.name" . }}-minio
-            - name: MINIO_EXTERNAL_ADDR
-              value: {{ .Values.server.minio.externalAddress | default "" }}         
             # - name: MINIO_PORT
             #   value: "9000"
             # - name: MINIO_SSL
