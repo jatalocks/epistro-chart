@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "socrates.name" . }}-api
+  name: {{ template "epistro.name" . }}-api
   labels:
-    app: {{ template "socrates.name" . }}-api
-    chart: {{ template "socrates.chart" . }}
+    app: {{ template "epistro.name" . }}-api
+    chart: {{ template "epistro.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.api.service.annotations }}
@@ -19,6 +19,6 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "socrates.name" . }}-api
+    app: {{ template "epistro.name" . }}-api
     release: {{ .Release.Name }}
   sessionAffinity: ClientIP

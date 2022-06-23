@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "socrates.fullname" . }}-api
+  name: {{ template "epistro.fullname" . }}-api
   labels:
-    app: {{ template "socrates.name" . }}-api
-    chart: {{ template "socrates.chart" . }}
+    app: {{ template "epistro.name" . }}-api
+    chart: {{ template "epistro.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.api.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "socrates.name" . }}-api
+      app: {{ template "epistro.name" . }}-api
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "socrates.name" . }}-api
+        app: {{ template "epistro.name" . }}-api
         release: {{ .Release.Name }}
 {{- with .Values.api.annotations }}
       annotations:

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "socrates.fullname" . }}-worker
+  name: {{ template "epistro.fullname" . }}-worker
   labels:
-    app: {{ template "socrates.name" . }}-worker
-    chart: {{ template "socrates.chart" . }}
+    app: {{ template "epistro.name" . }}-worker
+    chart: {{ template "epistro.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.worker.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "socrates.name" . }}-worker
+      app: {{ template "epistro.name" . }}-worker
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "socrates.name" . }}-worker
+        app: {{ template "epistro.name" . }}-worker
         release: {{ .Release.Name }}
 {{- with .Values.worker.annotations }}
       annotations:

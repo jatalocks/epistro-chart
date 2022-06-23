@@ -1,14 +1,14 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "socrates.fullname" . -}}
-{{- $name := include "socrates.name" . -}}
+{{- $fullName := include "epistro.fullname" . -}}
+{{- $name := include "epistro.name" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}-client
   labels:
-    app: {{ template "socrates.name" . }}-client
-    chart: {{ template "socrates.chart" . }}
+    app: {{ template "epistro.name" . }}-client
+    chart: {{ template "epistro.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}

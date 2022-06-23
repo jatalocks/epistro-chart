@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "socrates.fullname" . }}-server
+  name: {{ template "epistro.fullname" . }}-server
   labels:
-    app: {{ template "socrates.name" . }}-server
-    chart: {{ template "socrates.chart" . }}
+    app: {{ template "epistro.name" . }}-server
+    chart: {{ template "epistro.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.server.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "socrates.name" . }}-server
+      app: {{ template "epistro.name" . }}-server
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "socrates.name" . }}-server
+        app: {{ template "epistro.name" . }}-server
         release: {{ .Release.Name }}
 {{- with .Values.server.annotations }}
       annotations:
@@ -43,14 +43,16 @@ spec:
               value: "4000"
             - name: ENV
               value: production
+            - name: API_ADDR
+              value: {{ template "epistro.name" . }}-api
             - name: DB_USERNAME
               value: {{ .Values.server.database.user }}
             - name: DB_PASSWORD
               value: {{ .Values.server.database.password }}
             - name: DB_NAME
-              value: {{ template "socrates.name" . }}-mongodb-headless
+              value: {{ template "epistro.name" . }}-mongodb-headless
             - name: MINIO_ADDR
-              value: {{ template "socrates.name" . }}-minio
+              value: {{ template "epistro.name" . }}-minio
             # - name: MINIO_PORT
             #   value: "9000"
             # - name: MINIO_SSL
