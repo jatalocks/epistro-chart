@@ -100,7 +100,7 @@ mongodb:
     passwords: 
       - password
     databases: 
-      - meandatabase
+      - epistro
 
 minio:
   persistence:
