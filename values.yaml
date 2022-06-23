@@ -104,7 +104,7 @@ mongodb:
 
 minio:
   persistence:
-    enabled: false
+    enabled: true
   mode: distributed
   auth:
     rootUser: AKIAIOSFODNN7EXAMPLE
