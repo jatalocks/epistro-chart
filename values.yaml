@@ -53,7 +53,7 @@ api:
     pullPolicy: Always
   service:
     type: ClusterIP
-    port: 5004
+    port: 5000
     annotations: {}
   resources: {}
   nodeSelector: {}
