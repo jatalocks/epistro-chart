@@ -45,6 +45,8 @@ spec:
               value: redis://redis-master:6379/0                                    
             - name: speech_key
               value: {{.Values.speechmaticsKey}}
+            - name: MINIO_ADDR
+              value: {{ template "epistro.name" . }}-minio
           ports:
             - name: http
               containerPort: 5000
